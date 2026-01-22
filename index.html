@@ -8,12 +8,20 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: 'Hahmlet', serif;
       background: #343541;
       color: #ececf1;
       height: 100vh;
       overflow: hidden;
     }
+
+    .bold {
+      font-weight: 800;
+      background: linear-gradient(90deg, #00a5f1, #0d5cee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
 
     .container { display: flex; height: 100vh; }
 
@@ -174,6 +182,12 @@
       padding: 20px;
     }
 
+    .welcome-screen .main-title {
+      font-size: 42px;
+      margin-bottom: 50px;
+      font-weight: 600;
+    }
+
     .welcome-screen h1 {
       font-size: 32px;
       margin-bottom: 20px;
@@ -188,6 +202,10 @@
       width: 100%;
       max-width: 900px;
       padding: 0 20px;
+    }
+
+    .features-grid.hidden {
+      display: none;
     }
 
     .feature-btn {
@@ -233,6 +251,28 @@
     .feature-name {
       text-align: center;
       line-height: 1.4;
+    }
+
+    /* ───── 뒤로가기 버튼 ───── */
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background-color: #444654;
+      color: #ececf1;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 8px;
+      border: 1px solid #565869;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 20px;
+    }
+
+    .back-btn:hover {
+      background-color: #565869;
+      border-color: #19c37d;
     }
 
     /* ───── 입력 영역 ───── */
@@ -347,33 +387,67 @@
     <div class="main-content">
       <div class="chat-container" id="chatContainer">
         <div class="welcome-screen" id="welcomeScreen">
-          <h1>무엇을 도와드릴까요?</h1>
+          <div class="main-title">함께하는 성장하는 <span class="bold">AI 엔지니어 이진균</span> 입니다.</div>
+          <h1>질문을 해주시겠습니까?</h1>
           
-          <div class="features-grid">
-            <a href="https://jindol-reverseai.hf.space" target="_blank" class="feature-btn">
-              <div class="feature-icon">🎙️</div>
-              <div class="feature-name">역재생 녹음기</div>
+          <!-- 메인 기능 그리드 -->
+          <div class="features-grid" id="mainFeaturesGrid">
+            <a href="https://drive.google.com/file/d/15a3SFDQsdeOp-qeMe0LYoeG--7ZYwQcD/view?usp=sharing" target="_blank" class="feature-btn">
+              <div class="feature-icon">🎯</div>
+              <div class="feature-name">이력서</div>
+            </a>
+            
+            <a href="https://drive.google.com/file/d/1wjDQHlo8J0txw723e2-69lGC4VrA8OOm/view?usp=sharing" target="_blank" class="feature-btn">
+              <div class="feature-icon">⚡</div>
+              <div class="feature-name">포트폴리오</div>
             </a>
             
             <a href="https://jindol-chatbot.hf.space/" target="_blank" class="feature-btn">
               <div class="feature-icon">📱</div>
               <div class="feature-name">챗봇 임시</div>
             </a>
+
+            <a href="https://jindol-reverseai.hf.space" target="_blank" class="feature-btn">
+              <div class="feature-icon">🎙️</div>
+              <div class="feature-name">역재생 녹음기</div>
+            </a>
             
-            <div class="feature-btn placeholder">
-              <div class="feature-icon">🎯</div>
-              <div class="feature-name">기능 3</div>
-            </div>
-            
-            <div class="feature-btn placeholder">
-              <div class="feature-icon">⚡</div>
-              <div class="feature-name">기능 4</div>
-            </div>
-            
-            <div class="feature-btn placeholder">
+            <div class="feature-btn" onclick="showSubFeatures()">
               <div class="feature-icon">🚀</div>
-              <div class="feature-name">기능 5</div>
+              <div class="feature-name">프로젝트</div>
             </div>
+          </div>
+
+          <!-- 세부 기능 그리드 (기본 숨김) -->
+          <div class="features-grid hidden" id="subFeaturesGrid">
+            <button class="back-btn" onclick="showMainFeatures()" style="grid-column: 1 / -1;">
+              ← 뒤로가기
+            </button>
+
+            <a href="#" target="_blank" class="feature-btn">
+              <div class="feature-icon">🎨</div>
+              <div class="feature-name">세부 기능 1</div>
+            </a>
+            
+            <a href="#" target="_blank" class="feature-btn">
+              <div class="feature-icon">💡</div>
+              <div class="feature-name">세부 기능 2</div>
+            </a>
+            
+            <a href="#" target="_blank" class="feature-btn">
+              <div class="feature-icon">🔧</div>
+              <div class="feature-name">세부 기능 3</div>
+            </a>
+
+            <a href="#" target="_blank" class="feature-btn">
+              <div class="feature-icon">📊</div>
+              <div class="feature-name">세부 기능 4</div>
+            </a>
+            
+            <a href="#" target="_blank" class="feature-btn">
+              <div class="feature-icon">🌟</div>
+              <div class="feature-name">세부 기능 5</div>
+            </a>
           </div>
         </div>
         <div class="chat-messages" id="chatMessages" style="display: none;"></div>
@@ -485,7 +559,7 @@
             chat.messages.push({ role: 'assistant', content: "서버 연결 실패..." });
             renderMessages(chat.messages);
         }
-        }
+    }
 
     function deleteChat(id) {
       if (confirm('이 채팅을 삭제하시겠습니까?')) {
@@ -509,6 +583,17 @@
       const newName=document.getElementById('renameInput').value.trim();
       if(newName&&renamingChatId){const c=chats.find(c=>c.id===renamingChatId);if(c){c.name=newName;saveData();renderChatHistory();}}
       closeRenameModal();
+    }
+
+    // 기능 5 세부 메뉴 표시/숨김
+    function showSubFeatures() {
+      document.getElementById('mainFeaturesGrid').classList.add('hidden');
+      document.getElementById('subFeaturesGrid').classList.remove('hidden');
+    }
+
+    function showMainFeatures() {
+      document.getElementById('subFeaturesGrid').classList.add('hidden');
+      document.getElementById('mainFeaturesGrid').classList.remove('hidden');
     }
 
     function toggleSidebar(){document.getElementById('sidebar').classList.toggle('hidden');}
